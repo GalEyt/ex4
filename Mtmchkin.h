@@ -2,6 +2,8 @@
 #define MTMCHKIN_H_
 
 #include <deque>
+#include <string>
+#include <iostream>
 #include <memory>
 #include <fstream>
 #include "Players/Player.h"
@@ -17,11 +19,14 @@
 #include "Players/Warrior.h"
 #include "Players/Healer.h"
 #include "Players/Ninja.h"
+#include "utilities.h"
 
 class Mtmchkin{
 
 public:
     
+    static const int MIN_SIZE_OF_DECK = 5;
+
     /*
     * C'tor of Mtmchkin class
     *
@@ -68,6 +73,8 @@ public:
     Mtmchkin(const Mtmchkin&) = delete;
 
 private:
+    static std::deque<std::unique_ptr<Card>> getDeck(const std::string &fileName);
+    static std::deque<std::unique_ptr<Card>> getDeckHelper(std::ifstream &deckFile,int &line);
     std::deque<std::unique_ptr<Card>> m_cards;
     std::deque<std::unique_ptr<Player>> m_players;
     std::deque<std::unique_ptr<Player>> m_winners;
