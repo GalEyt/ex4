@@ -5,8 +5,10 @@ int getTeamSize();
 int getTeamSize()
 {
     std::string input;
-    int teamSize = 0;
+    int teamSize;
+    bool validTeamSize;
     do {
+        validTeamSize = true;
         try {
             std::getline(std::cin,input,'\n');
             teamSize = stoi(input, nullptr,10);
@@ -14,10 +16,16 @@ int getTeamSize()
             //printInvalidTeamSize();
             //printEnterTeamSizeMessage();
             std::cout << "wrong\n";
+            validTeamSize = false;
+            continue;
         }
-        if(teamSize)
+        if(teamSize < 2 || teamSize > 6) {
+            std::cout << "only 2-6\n";
+            validTeamSize = false;
+        }
+        
     }
-    while(teamSize < 2 || teamSize > 6 );
+    while(!validTeamSize);
 
     return teamSize;
 }
