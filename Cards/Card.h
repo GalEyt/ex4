@@ -29,8 +29,8 @@ class Card {
 public:
     virtual void applyEncounter(Player& player) const = 0;
     virtual std::string getCardName() const = 0;
-    //bool isMonster() const;
-    //bool isDragon() const;
+    bool isMonster() const;
+    bool isDragon() const;
     Card() = default;
     Card(Card& card) = default;
     virtual ~Card() = default;

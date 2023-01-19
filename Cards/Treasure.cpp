@@ -9,7 +9,7 @@ void Treasure::applyEncounter(Player &player) const
         printTreasureMessage();
 }
 
-// std::string Treasure::getCardName() const
-// {
-//     return "Treasure";
-// }
+std::string Treasure::getCardName() const
+{
+    return "Treasure";
+}

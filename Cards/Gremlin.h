@@ -7,7 +7,7 @@ class Gremlin : public Card{
 public:
     Gremlin();
     void applyEncounter(Player &player) const override;
-    //std::string getCardName() const override;
+    std::string getCardName() const override;
 };
 
 #endif //EXCS_GREMLIN_H

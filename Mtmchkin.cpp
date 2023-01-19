@@ -13,7 +13,7 @@ bool isValidPlayerName(const std::string& name){
 }
 
 bool isValidPlayerClass(const std::string& job){
-    if(job == "Wizard" || job == "Rogue" || job == "Fighter"){
+    if(job == "Healer" || job == "Ninja" || job == "Warrior"){
         return true;
     }
     else{
@@ -58,10 +58,13 @@ std::deque<std::unique_ptr<Card>> Mtmchkin::getDeck(const std::string &fileName)
 {
     std::ifstream deckFile(fileName, std::ios::in);
     if(deckFile.good()){
-        std::deque<std::unique_ptr<Card>> cards = getDeckHelper(deckFile);
-        return cards;
+        //std::deque<std::unique_ptr<Card>> cards = getDeckHelper(deckFile);
+        //return cards;
+        deckFile.close();
+        return getDeckHelper(deckFile);
     }
     else {
+        deckFile.close();
         throw DeckFileNotFound();
     }
 }
@@ -69,22 +72,32 @@ std::deque<std::unique_ptr<Card>> Mtmchkin::getDeck(const std::string &fileName)
 int getTeamSize()
 {
     std::string input;
-    int teamSize = 0;
-    while(teamSize < 2 || teamSize > 6 ) 
-    {
+    int teamSize;
+    bool validTeamSize;
+    do {
+        validTeamSize = true;
         try {
             std::getline(std::cin,input,'\n');
             teamSize = stoi(input, nullptr,10);
         } catch (std::exception& e) {
             printInvalidTeamSize();
             printEnterTeamSizeMessage();
+            validTeamSize = false;
+            continue;
         }
+        if(teamSize < 2 || teamSize > 6) {
+            printInvalidTeamSize();
+            printEnterTeamSizeMessage();
+            validTeamSize = false;
+        }
+        
     }
+    while(!validTeamSize);
 
     return teamSize;
 }
 
-deque<unique_ptr<Player>> Mtmchkin::getTeam(int teamSize)
+std::deque<std::unique_ptr<Player>> Mtmchkin::getTeam(int teamSize)
 {
     std::string input;
     std::deque<std::unique_ptr<Player>> players;
@@ -105,14 +118,53 @@ deque<unique_ptr<Player>> Mtmchkin::getTeam(int teamSize)
             std::stringstream str(input);
             str>>playerName>>playerClass;
         }
-        if(playerClass == "Wizard"){
-            players.push_back(std::unique_ptr<Wizard> (new Wizard(playerName)));
-        } else if(playerClass == "Rogue") {
-            players.push_back(std::unique_ptr<Rogue>(new Rogue(playerName)));
-        } else if(playerClass == "Fighter") {
-            players.push_back(std::unique_ptr<Fighter>(new Fighter(playerName)));
+        if(playerClass == "Healer"){
+            players.push_back(std::unique_ptr<Healer> (new Healer(playerName)));
+        } else if(playerClass == "Ninja") {
+            players.push_back(std::unique_ptr<Ninja>(new Ninja(playerName)));
+        } else if(playerClass == "Warrior") {
+            players.push_back(std::unique_ptr<Warrior>(new Warrior(playerName)));
         }
 
     }
     return players;
+}
+
+Mtmchkin::Mtmchkin(const std::string &fileName)
+{
+    printStartGameMessage();
+    m_cards = getDeck(fileName);
+    int teamSize = getTeamSize();
+    m_players = getTeam(teamSize);
+}
+
+bool Mtmchkin::isGameOver() const
+{
+    if(m_players.empty()){
+        return true;
+    }
+    return false;
+}
+
+int Mtmchkin::getNumberOfRounds() const
+{
+    return m_numOfRounds;
+}
+
+void Mtmchkin::printLeaderBoard() const
+{
+    printLeaderBoardStartMessage();
+    int rank = 1;
+    for(const std::unique_ptr<Player> & m_player: m_winners) {
+        printPlayerLeaderBoard(rank,*m_player);
+        rank++;
+        }
+    for(const std::unique_ptr<Player> & m_player : m_players) {
+        printPlayerLeaderBoard(rank,*m_player);
+        rank++;
+    }
+    for(const std::unique_ptr<Player> & m_player : m_losers) {
+        printPlayerLeaderBoard(rank,*m_player);
+        rank++;
+    }
 }

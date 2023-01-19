@@ -7,6 +7,6 @@ class Treasure : public Card{
 public:
     Treasure();
     void applyEncounter(Player &player) const override;
-   // std::string getCardName() const override;
+    std::string getCardName() const override;
 };
 #endif //EXCS_TREASURE_H

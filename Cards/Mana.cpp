@@ -13,8 +13,8 @@ void Mana::applyEncounter(Player &player) const
     printManaMessage(isHealer);
 }
 
-// std::string Mana::getCardName() const
-// {
-//     return "Mana";
-// }
+std::string Mana::getCardName() const
+{
+    return "Mana";
+}
 

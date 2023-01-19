@@ -74,7 +74,8 @@ public:
 
 private:
     static std::deque<std::unique_ptr<Card>> getDeck(const std::string &fileName);
-    static std::deque<std::unique_ptr<Card>> getDeckHelper(std::ifstream &deckFile,int &line);
+    static std::deque<std::unique_ptr<Card>> getDeckHelper(std::ifstream &deckFile);
+    static std::deque<std::unique_ptr<Player>> getTeam(int teamSize);
     std::deque<std::unique_ptr<Card>> m_cards;
     std::deque<std::unique_ptr<Player>> m_players;
     std::deque<std::unique_ptr<Player>> m_winners;

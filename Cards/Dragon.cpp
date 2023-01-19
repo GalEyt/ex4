@@ -20,7 +20,7 @@ void Dragon::applyEncounter(Player &player) const
     }
 }
 
-// std::string Dragon::getCardName() const
-// {
-//     return "Dragon";
-// }
+std::string Dragon::getCardName() const
+{
+    return "Dragon";
+}

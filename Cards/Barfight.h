@@ -8,7 +8,7 @@ class Barfight : public Card{
 public:
     Barfight();
     void applyEncounter(Player &player) const override;
-    //std::string getCardName() const override;
+    std::string getCardName() const override;
 
 };
 

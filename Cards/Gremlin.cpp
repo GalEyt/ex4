@@ -21,9 +21,9 @@ void Gremlin::applyEncounter(Player &player) const
     }
 }
 
-// std::string Gremlin::getCardName() const
-// {
-//     return "Gremlin";
-// }
+std::string Gremlin::getCardName() const
+{
+    return "Gremlin";
+}
 
 

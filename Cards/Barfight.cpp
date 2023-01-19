@@ -14,7 +14,7 @@ void Barfight::applyEncounter(Player &player) const
     printBarfightMessage(isWarrior);
 }
 
-// std::string Barfight::getCardName() const
-// {
-//     return "Barfight";
-// }
+std::string Barfight::getCardName() const
+{
+    return "Barfight";
+}

@@ -21,7 +21,7 @@ void Witch::applyEncounter(Player &player) const
     }
 }
 
-// std::string Witch::getCardName() const
-// {
-//     return "Witch";
-// }
+std::string Witch::getCardName() const
+{
+    return "Witch";
+}
