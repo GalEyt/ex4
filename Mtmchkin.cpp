@@ -45,12 +45,15 @@ std::deque<std::unique_ptr<Card>> Mtmchkin::getDeckHelper(std::ifstream &deckFil
         } else if(cardType == "Mana"){
             cards.push_back(std::unique_ptr<Mana>(new Mana()));
         } else{
+            deckFile.close();
             throw DeckFileFormatError(line);
         }
     }
     if(cards.size() < MIN_SIZE_OF_DECK){
+        deckFile.close();
         throw DeckFileInvalidSize();
     }
+    deckFile.close();
     return cards;
 }
 
@@ -60,7 +63,6 @@ std::deque<std::unique_ptr<Card>> Mtmchkin::getDeck(const std::string &fileName)
     if(deckFile.good()){
         //std::deque<std::unique_ptr<Card>> cards = getDeckHelper(deckFile);
         //return cards;
-        deckFile.close();
         return getDeckHelper(deckFile);
     }
     else {
@@ -74,6 +76,7 @@ int getTeamSize()
     std::string input;
     int teamSize;
     bool validTeamSize;
+    printEnterTeamSizeMessage();
     do {
         validTeamSize = true;
         try {
@@ -136,6 +139,32 @@ Mtmchkin::Mtmchkin(const std::string &fileName)
     m_cards = getDeck(fileName);
     int teamSize = getTeamSize();
     m_players = getTeam(teamSize);
+    m_numOfRounds = 0;
+}
+
+void Mtmchkin::playRound()
+{
+    printRoundStartMessage(++m_numOfRounds);
+    int numOfPlayers = m_players.size();
+    for (int i = 0; i < numOfPlayers; ++i){
+    printTurnStartMessage(m_players.front()->getPlayerName());
+    (*m_cards.front()).applyEncounter(*m_players.front());
+    if (m_players.front()->isWinner()) {
+        m_winners.push_back(move(m_players.front()));
+    } else if (m_players.front()->isKnockedOut()) {
+        m_losers.push_front(move(m_players.front()));
+    }
+    else {
+        m_players.push_back(move(m_players.front()));
+    }
+    m_players.pop_front();
+    m_cards.push_back(move(m_cards.front()));
+    m_cards.pop_front();
+    }
+    if(isGameOver()){
+        printGameEndMessage();
+    }
+
 }
 
 bool Mtmchkin::isGameOver() const

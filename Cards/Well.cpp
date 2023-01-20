@@ -15,7 +15,7 @@ void Well::applyEncounter(Player &player) const
     printWellMessage(isNinja);
 }
 
-// std::string Well::getCardName() const
-// {
-//     return "Well";
-// }
+std::string Well::getCardName() const
+{
+    return "Well";
+}
