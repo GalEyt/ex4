@@ -1,5 +1,4 @@
 #include "../Mtmchkin.h"
-#include <iostream>
 
 int main()
 { 
