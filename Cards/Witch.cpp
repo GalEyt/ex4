@@ -2,7 +2,7 @@
 
 Witch::Witch()
 {
-    m_stats.force = 10;
+    m_stats.force = 11;
     m_stats.loot = 2;
     m_stats.hpLossOnDefeat = 10;
 }
